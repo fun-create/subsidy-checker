@@ -8,30 +8,32 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --primary: #1a56db;
-  --primary-light: #3b82f6;
-  --primary-dark: #1e3a8a;
-  --accent: #f59e0b;
+  --primary: #0F172A;
+  --primary-light: #1E293B;
+  --primary-dark: #0F172A;
+  --accent: #F47920;
+  --accent-hover: #e06810;
+  --gold: #F9C74F;
   --success: #10b981;
   --danger: #ef4444;
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-500: #6b7280;
-  --gray-700: #374151;
-  --gray-900: #111827;
+  --gray-50: #F8FAFC;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-500: #6B7280;
+  --gray-700: #334155;
+  --gray-900: #0F172A;
   --radius: 12px;
-  --shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+  --shadow: 0 4px 32px rgba(0,0,0,.06);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,.1);
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
-  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+  font-family: '游ゴシック体', 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+  background: var(--gray-50);
   color: var(--gray-900);
   min-height: 100vh;
-  line-height: 1.6;
+  line-height: 1.8;
 }
 
 .container {
@@ -47,8 +49,9 @@ body {
 }
 .header h1 {
   font-size: 28px;
-  color: var(--primary-dark);
+  color: var(--gray-900);
   margin-bottom: 8px;
+  font-weight: 800;
 }
 .header p {
   color: var(--gray-500);
@@ -84,12 +87,12 @@ body {
   flex-shrink: 0;
 }
 .step-circle.active {
-  background: var(--primary);
+  background: var(--accent);
   color: #fff;
-  box-shadow: 0 0 0 4px rgba(26,86,219,.2);
+  box-shadow: 0 0 0 4px rgba(244,121,32,.2);
 }
 .step-circle.done {
-  background: var(--success);
+  background: var(--gray-900);
   color: #fff;
 }
 .step-line {
@@ -99,7 +102,7 @@ body {
   transition: background .3s;
 }
 .step-line.done {
-  background: var(--success);
+  background: var(--gray-900);
 }
 
 /* Card */
@@ -118,8 +121,9 @@ body {
 
 .card h2 {
   font-size: 20px;
-  color: var(--primary-dark);
+  color: var(--gray-900);
   margin-bottom: 6px;
+  font-weight: 800;
 }
 .card .subtitle {
   color: var(--gray-500);
@@ -160,8 +164,8 @@ select {
 }
 select:focus {
   outline: none;
-  border-color: var(--primary-light);
-  box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(244,121,32,.15);
 }
 
 /* Radio / Checkbox as cards */
@@ -196,13 +200,13 @@ select:focus {
   flex-shrink: 0;
 }
 .option-card input:checked + .option-label {
-  border-color: var(--primary);
-  background: #eff6ff;
-  color: var(--primary-dark);
+  border-color: var(--accent);
+  background: #fff7ed;
+  color: var(--gray-900);
   font-weight: 600;
 }
 .option-card .option-label:hover {
-  border-color: var(--primary-light);
+  border-color: var(--accent);
 }
 
 /* Checkbox multi */
@@ -229,11 +233,11 @@ select:focus {
   transition: all .2s;
 }
 .btn-primary {
-  background: var(--primary);
+  background: var(--accent);
   color: #fff;
   flex: 1;
 }
-.btn-primary:hover { background: var(--primary-dark); }
+.btn-primary:hover { background: var(--accent-hover); }
 .btn-primary:disabled {
   background: var(--gray-300);
   cursor: not-allowed;
@@ -260,8 +264,8 @@ select:focus {
 .result-card:nth-child(3) { animation-delay: .3s; }
 .result-card:nth-child(4) { animation-delay: .4s; }
 
-.result-card.high { border-left-color: var(--success); }
-.result-card.medium { border-left-color: var(--accent); }
+.result-card.high { border-left-color: var(--accent); }
+.result-card.medium { border-left-color: var(--gold); }
 .result-card.low { border-left-color: var(--gray-300); }
 
 .result-header {
@@ -284,9 +288,23 @@ select:focus {
   font-weight: 700;
   white-space: nowrap;
 }
-.score-badge.high { background: #d1fae5; color: #065f46; }
-.score-badge.medium { background: #fef3c7; color: #92400e; }
-.score-badge.low { background: var(--gray-100); color: var(--gray-500); }
+.score-badge.high { background: #fff7ed; color: #F47920; border: 1px solid #F47920; }
+.score-badge.medium { background: #fffbeb; color: #b45309; border: 1px solid #F9C74F; }
+.score-badge.low { background: var(--gray-100); color: var(--gray-500); border: 1px solid var(--gray-200); }
+.score-badge.ineligible { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+.result-card.ineligible {
+  border-left-color: var(--danger);
+  opacity: .7;
+}
+.ineligible-reason {
+  font-size: 13px;
+  color: var(--danger);
+  background: #fef2f2;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+}
 
 .result-meta {
   display: flex;
@@ -314,8 +332,8 @@ select:focus {
   border-radius: 6px;
   transition: width 1s ease;
 }
-.score-bar.high { background: var(--success); }
-.score-bar.medium { background: var(--accent); }
+.score-bar.high { background: var(--accent); }
+.score-bar.medium { background: var(--gold); }
 .score-bar.low { background: var(--gray-300); }
 
 .result-points {
@@ -333,12 +351,12 @@ select:focus {
   content: '\2713';
   position: absolute;
   left: 0;
-  color: var(--success);
+  color: var(--accent);
   font-weight: 700;
 }
 
 .result-summary {
-  background: linear-gradient(135deg, #1e3a8a, #1a56db);
+  background: linear-gradient(135deg, #0F172A, #1E293B);
   color: #fff;
   border-radius: var(--radius);
   padding: 28px;
@@ -349,7 +367,7 @@ select:focus {
 .result-summary h2 {
   font-size: 22px;
   margin-bottom: 8px;
-  color: #fff;
+  color: var(--accent);
 }
 .result-summary p {
   opacity: .85;
@@ -376,11 +394,11 @@ select:focus {
   font-weight: 700;
   cursor: pointer;
   transition: all .2s;
-  box-shadow: 0 4px 14px rgba(245,158,11,.3);
+  box-shadow: 0 4px 14px rgba(244,121,32,.3);
 }
 .btn-cta:hover {
-  background: #d97706;
-  transform: translateY(-1px);
+  background: var(--accent-hover);
+  transform: translateY(-3px);
 }
 
 .btn-restart {
@@ -402,8 +420,8 @@ select:focus {
 
 /* AI Advice */
 .ai-advice-card {
-  background: linear-gradient(135deg, #fefce8, #fff7ed);
-  border: 2px solid #fbbf24;
+  background: linear-gradient(135deg, #FFF7ED, #FFFBEB);
+  border: 2px solid var(--accent);
   border-radius: var(--radius);
   padding: 24px;
   margin-bottom: 20px;
@@ -411,15 +429,16 @@ select:focus {
 }
 .ai-advice-card h3 {
   font-size: 17px;
-  color: #92400e;
+  color: var(--gray-900);
   margin-bottom: 4px;
   display: flex;
   align-items: center;
   gap: 8px;
+  font-weight: 800;
 }
 .ai-advice-card .ai-badge {
   font-size: 11px;
-  background: #f59e0b;
+  background: var(--accent);
   color: #fff;
   padding: 2px 8px;
   border-radius: 10px;
@@ -427,7 +446,7 @@ select:focus {
 }
 .ai-advice-card .ai-subtitle {
   font-size: 13px;
-  color: #a16207;
+  color: var(--gray-500);
   margin-bottom: 16px;
 }
 .ai-advice-content {
@@ -438,12 +457,12 @@ select:focus {
 }
 .ai-advice-content h4,
 .ai-advice-content strong {
-  color: #92400e;
+  color: var(--gray-900);
 }
 .ai-loading {
   text-align: center;
   padding: 20px;
-  color: #a16207;
+  color: var(--accent);
   font-size: 14px;
 }
 .ai-loading .dots::after {
@@ -479,9 +498,10 @@ select:focus {
 }
 .landing h1 {
   font-size: 32px;
-  color: var(--primary-dark);
+  color: var(--gray-900);
   margin-bottom: 12px;
   line-height: 1.3;
+  font-weight: 800;
 }
 .landing .lead {
   font-size: 16px;
@@ -493,7 +513,7 @@ select:focus {
 }
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-bottom: 36px;
   text-align: center;
@@ -509,20 +529,20 @@ select:focus {
 
 .btn-start {
   padding: 18px 56px;
-  background: var(--primary);
+  background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   transition: all .2s;
-  box-shadow: 0 4px 14px rgba(26,86,219,.3);
+  box-shadow: 0 4px 14px rgba(244,121,32,.3);
 }
 .btn-start:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(26,86,219,.4);
+  background: var(--accent-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(244,121,32,.4);
 }
 
 .note {
@@ -882,20 +902,33 @@ function calcScores() {
   const measures = getVals('measures');
   const budget = getVal('budget');
 
-  const isSmall = ['1-5', '6-20'].includes(employees);
-  const isMedium = ['21-50', '51-100'].includes(employees);
-  const isLarge = employees === '101+';
+  // 業種別の従業員数上限（小規模事業者の定義）
+  // 製造業・建設業: 20名以下、商業・サービス業: 5名以下
+  const empNum = employees === '1-5' ? 5 : employees === '6-20' ? 20 : employees === '21-50' ? 50 : employees === '51-100' ? 100 : 300;
+  const isManufacturingType = ['manufacturing', 'construction'].includes(industry);
+  const smallLimit = isManufacturingType ? 20 : 5;
+  const isShokibo = empNum <= smallLimit; // 小規模事業者かどうか（業種考慮）
+
+  // 中小企業の定義（業種別の資本金・従業員数上限）
+  // 製造業: 300名以下、卸売業: 100名以下、小売業・飲食業: 50名以下、サービス業: 100名以下
+  const chuushouLimit = industry === 'manufacturing' || industry === 'construction' ? 300
+    : industry === 'retail' || industry === 'food' ? 50
+    : 100;
+  const isChuushou = empNum <= chuushouLimit; // 中小企業かどうか
 
   const scores = {};
 
   // --- 小規模事業者持続化補助金 ---
   {
     let s = 0;
-    // 従業員数: 小規模が対象
-    if (employees === '1-5') s += 30;
-    else if (employees === '6-20') s += 25;
-    else if (employees === '21-50') s += 5;
-    else s += 0;
+    // 業種別の小規模事業者判定
+    if (isShokibo) {
+      s += 30; // 小規模事業者に該当
+    } else if (isChuushou && empNum <= smallLimit * 4) {
+      s += 10; // 小規模ではないが中小企業の範囲内
+    } else {
+      s += 0; // 対象外の可能性が高い
+    }
     // 施策マッチ
     const match = ['hp', 'webmarketing', 'ec', 'facility'].filter(m => measures.includes(m));
     s += Math.min(match.length * 12, 30);
@@ -916,11 +949,10 @@ function calcScores() {
   // --- IT導入補助金 ---
   {
     let s = 0;
-    // 中小企業対象
-    if (isSmall) s += 20;
-    else if (isMedium) s += 25;
-    else if (employees === '51-100') s += 20;
-    else s += 5;
+    // 業種別の中小企業判定
+    if (isChuushou && isShokibo) s += 25; // 小規模事業者（加点あり）
+    else if (isChuushou) s += 20;          // 中小企業
+    else s += 5;                            // 対象外の可能性
     // 施策マッチ
     const match = ['dx_tool', 'ec', 'system', 'hp'].filter(m => measures.includes(m));
     s += Math.min(match.length * 12, 35);
@@ -941,11 +973,9 @@ function calcScores() {
   // --- ものづくり補助金 ---
   {
     let s = 0;
-    // 中小企業対象
-    if (isMedium) s += 25;
-    else if (isSmall) s += 20;
-    else if (employees === '51-100') s += 20;
-    else s += 5;
+    // 業種別の中小企業判定
+    if (isChuushou) s += 25;  // 中小企業に該当
+    else s += 5;               // 対象外の可能性
     // 施策マッチ
     const match = ['new_product', 'system', 'facility'].filter(m => measures.includes(m));
     s += Math.min(match.length * 15, 30);
@@ -968,11 +998,10 @@ function calcScores() {
   // --- 事業再構築補助金 ---
   {
     let s = 0;
-    // 中小企業対象
-    if (isMedium) s += 20;
-    else if (isSmall) s += 15;
-    else if (employees === '51-100') s += 20;
-    else s += 10;
+    // 業種別の中小企業判定（中堅企業も一部対象）
+    if (isChuushou && isShokibo) s += 20;  // 小規模事業者
+    else if (isChuushou) s += 20;           // 中小企業
+    else s += 10;                            // 中堅企業も一部対象
     // 施策マッチ
     const match = ['new_product', 'facility', 'system', 'ec'].filter(m => measures.includes(m));
     s += Math.min(match.length * 12, 30);
@@ -994,6 +1023,56 @@ function calcScores() {
   return scores;
 }
 
+// ---- Eligibility Check (業種×従業員数の資格判定) ----
+function checkEligibility() {
+  const industry = getVal('industry');
+  const employees = getVal('employees');
+  const empNum = employees === '1-5' ? 5 : employees === '6-20' ? 20 : employees === '21-50' ? 50 : employees === '51-100' ? 100 : 300;
+  const isManufacturingType = ['manufacturing', 'construction'].includes(industry);
+  const smallLimit = isManufacturingType ? 20 : 5;
+  const chuushouLimit = industry === 'manufacturing' || industry === 'construction' ? 300
+    : industry === 'retail' || industry === 'food' ? 50
+    : 100;
+  const isShokibo = empNum <= smallLimit;
+  const isChuushou = empNum <= chuushouLimit;
+
+  const industryLabel = industryLabels[industry] || industry;
+  const empLabel = employeeLabels[employees] || employees;
+
+  const result = {};
+
+  // 小規模事業者持続化補助金: 小規模事業者のみ
+  if (isShokibo) {
+    result.jizokuka = { eligible: true };
+  } else {
+    const limit = isManufacturingType ? '20名以下' : '5名以下';
+    result.jizokuka = { eligible: false, reason: `${industryLabel}の小規模事業者の定義は従業員${limit}です。現在の従業員数（${empLabel}）では申請対象外となる可能性が高いです。` };
+  }
+
+  // IT導入補助金: 中小企業・小規模事業者
+  if (isChuushou) {
+    result.it_hojo = { eligible: true };
+  } else {
+    result.it_hojo = { eligible: false, reason: `${industryLabel}の中小企業の定義は従業員${chuushouLimit}名以下です。現在の従業員数（${empLabel}）では申請対象外となる可能性が高いです。` };
+  }
+
+  // ものづくり補助金: 中小企業
+  if (isChuushou) {
+    result.monozukuri = { eligible: true };
+  } else {
+    result.monozukuri = { eligible: false, reason: `${industryLabel}の中小企業の定義は従業員${chuushouLimit}名以下です。現在の従業員数（${empLabel}）では申請対象外となる可能性が高いです。` };
+  }
+
+  // 事業再構築補助金: 中小企業＋中堅企業（2000名以下）も対象
+  if (empNum <= 2000) {
+    result.jigyo_saikouchiku = { eligible: true };
+  } else {
+    result.jigyo_saikouchiku = { eligible: false, reason: `従業員数2,000名以下の中小・中堅企業が対象です。現在の従業員数（${empLabel}）では申請対象外となる可能性があります。` };
+  }
+
+  return result;
+}
+
 // ---- Result Rendering ----
 function showResult() {
   if (!validateStep(4)) {
@@ -1006,15 +1085,20 @@ function showResult() {
   resultDiv.classList.remove('hidden');
 
   const scores = calcScores();
+  const eligibility = checkEligibility();
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-  const topScore = sorted[0][1];
 
-  let level = topScore >= 60 ? 'high' : topScore >= 35 ? 'medium' : 'low';
+  // 対象外でないもののうち最高スコアを取得
+  const eligibleScores = sorted.filter(([k]) => eligibility[k].eligible);
+  const topScore = eligibleScores.length > 0 ? eligibleScores[0][1] : 0;
+
   let message = topScore >= 60
     ? '活用できる可能性が高い補助金があります！'
     : topScore >= 35
       ? '条件次第で活用できる補助金がありそうです'
-      : '現在の条件では該当する補助金が限られています';
+      : eligibleScores.length === 0
+        ? '現在の条件では該当する補助金が見つかりませんでした'
+        : '現在の条件では該当する補助金が限られています';
 
   let html = `
     <div class="header">
@@ -1030,6 +1114,26 @@ function showResult() {
 
   sorted.forEach(([key, score]) => {
     const data = subsidyData[key];
+    const elig = eligibility[key];
+
+    if (!elig.eligible) {
+      html += `
+      <div class="result-card ineligible">
+        <div class="result-header">
+          <h3>${data.name}</h3>
+          <span class="score-badge ineligible">対象外</span>
+        </div>
+        <div class="ineligible-reason">${elig.reason}</div>
+        <div class="result-meta">
+          <div class="meta-item"><strong>補助率:</strong> ${data.rate}</div>
+          <div class="meta-item"><strong>補助上限:</strong> ${data.maxAmount}</div>
+        </div>
+        <p style="font-size:14px; color: var(--gray-500); margin-bottom: 10px;">${data.description}</p>
+      </div>
+      `;
+      return;
+    }
+
     const cls = score >= 60 ? 'high' : score >= 35 ? 'medium' : 'low';
     const label = score >= 60 ? '該当度 高' : score >= 35 ? '該当度 中' : '該当度 低';
 
