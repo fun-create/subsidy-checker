@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>補助金活用診断 | あなたの事業に使える補助金をチェック</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #1a56db;
+  --primary-light: #3b82f6;
+  --primary-dark: #1e3a8a;
+  --accent: #f59e0b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+  color: var(--gray-900);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 40px 20px 30px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+}
+.header p {
+  color: var(--gray-500);
+  font-size: 15px;
+}
+
+/* Progress Bar */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 32px;
+  padding: 0 10px;
+}
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  background: var(--gray-200);
+  color: var(--gray-500);
+  transition: all .3s;
+  flex-shrink: 0;
+}
+.step-circle.active {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(26,86,219,.2);
+}
+.step-circle.done {
+  background: var(--success);
+  color: #fff;
+}
+.step-line {
+  width: 60px;
+  height: 3px;
+  background: var(--gray-200);
+  transition: background .3s;
+}
+.step-line.done {
+  background: var(--success);
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px;
+  margin-bottom: 24px;
+  animation: fadeIn .4s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card h2 {
+  font-size: 20px;
+  color: var(--primary-dark);
+  margin-bottom: 6px;
+}
+.card .subtitle {
+  color: var(--gray-500);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* Form elements */
+.form-group {
+  margin-bottom: 24px;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gray-700);
+  margin-bottom: 8px;
+}
+.form-group label .required {
+  color: var(--danger);
+  margin-left: 4px;
+}
+
+select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--gray-900);
+  background: #fff;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+select:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+}
+
+/* Radio / Checkbox as cards */
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.option-card {
+  position: relative;
+  cursor: pointer;
+}
+.option-card input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.option-card .option-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 2px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all .2s;
+  background: #fff;
+}
+.option-card .option-label .icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.option-card input:checked + .option-label {
+  border-color: var(--primary);
+  background: #eff6ff;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+.option-card .option-label:hover {
+  border-color: var(--primary-light);
+}
+
+/* Checkbox multi */
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.btn {
+  padding: 14px 32px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  flex: 1;
+}
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-primary:disabled {
+  background: var(--gray-300);
+  cursor: not-allowed;
+}
+.btn-back {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+.btn-back:hover { background: var(--gray-200); }
+
+/* Result */
+.result-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  margin-bottom: 16px;
+  border-left: 5px solid var(--gray-300);
+  animation: fadeIn .4s ease;
+  animation-fill-mode: both;
+}
+.result-card:nth-child(1) { animation-delay: .1s; }
+.result-card:nth-child(2) { animation-delay: .2s; }
+.result-card:nth-child(3) { animation-delay: .3s; }
+.result-card:nth-child(4) { animation-delay: .4s; }
+
+.result-card.high { border-left-color: var(--success); }
+.result-card.medium { border-left-color: var(--accent); }
+.result-card.low { border-left-color: var(--gray-300); }
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.result-header h3 {
+  font-size: 18px;
+  color: var(--gray-900);
+}
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.score-badge.high { background: #d1fae5; color: #065f46; }
+.score-badge.medium { background: #fef3c7; color: #92400e; }
+.score-badge.low { background: var(--gray-100); color: var(--gray-500); }
+
+.result-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.meta-item {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+.meta-item strong {
+  color: var(--gray-700);
+}
+
+.score-bar-wrap {
+  background: var(--gray-100);
+  border-radius: 6px;
+  height: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.score-bar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 1s ease;
+}
+.score-bar.high { background: var(--success); }
+.score-bar.medium { background: var(--accent); }
+.score-bar.low { background: var(--gray-300); }
+
+.result-points {
+  list-style: none;
+  padding: 0;
+}
+.result-points li {
+  font-size: 13px;
+  color: var(--gray-700);
+  padding: 3px 0;
+  padding-left: 20px;
+  position: relative;
+}
+.result-points li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: 700;
+}
+
+.result-summary {
+  background: linear-gradient(135deg, #1e3a8a, #1a56db);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 28px;
+  text-align: center;
+  margin-bottom: 24px;
+  animation: fadeIn .4s ease;
+}
+.result-summary h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.result-summary p {
+  opacity: .85;
+  font-size: 14px;
+}
+.result-summary .big-score {
+  font-size: 48px;
+  font-weight: 800;
+  margin: 12px 0;
+}
+
+.cta-section {
+  text-align: center;
+  padding: 20px 0 40px;
+}
+.btn-cta {
+  display: inline-block;
+  padding: 16px 48px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  box-shadow: 0 4px 14px rgba(245,158,11,.3);
+}
+.btn-cta:hover {
+  background: #d97706;
+  transform: translateY(-1px);
+}
+
+.btn-restart {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 32px;
+  background: transparent;
+  color: var(--gray-500);
+  border: 2px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-restart:hover {
+  border-color: var(--gray-300);
+  color: var(--gray-700);
+}
+
+/* Disclaimer */
+.disclaimer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--gray-500);
+  padding: 0 20px 40px;
+  line-height: 1.7;
+}
+
+/* Landing */
+.landing {
+  text-align: center;
+  padding: 60px 20px 40px;
+}
+.landing h1 {
+  font-size: 32px;
+  color: var(--primary-dark);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.landing .lead {
+  font-size: 16px;
+  color: var(--gray-500);
+  margin-bottom: 32px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+  text-align: center;
+}
+.feature-item {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  box-shadow: var(--shadow);
+}
+.feature-item .icon { font-size: 32px; margin-bottom: 8px; }
+.feature-item .label { font-size: 13px; color: var(--gray-700); font-weight: 600; }
+
+.btn-start {
+  padding: 18px 56px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  box-shadow: 0 4px 14px rgba(26,86,219,.3);
+}
+.btn-start:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26,86,219,.4);
+}
+
+.note {
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+/* Hidden */
+.hidden { display: none !important; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container { padding: 12px; }
+  .card { padding: 20px; }
+  .landing h1 { font-size: 24px; }
+  .header h1 { font-size: 22px; }
+  .option-grid, .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+  .btn-row { flex-direction: column; }
+  .btn-row .btn { width: 100%; }
+  .step-line { width: 30px; }
+  .result-header { flex-direction: column; gap: 8px; }
+  .result-meta { flex-direction: column; gap: 6px; }
+  .feature-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Landing -->
+  <div id="landing">
+    <div class="landing">
+      <h1>あなたの事業に<br>使える補助金を診断</h1>
+      <p class="lead">簡単な質問に答えるだけで、HP制作・DXツール導入・WEBマーケティングなどに活用できる補助金がわかります。</p>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="icon">&#128337;</div>
+          <div class="label">所要時間 約2分</div>
+        </div>
+        <div class="feature-item">
+          <div class="icon">&#128176;</div>
+          <div class="label">4つの補助金を診断</div>
+        </div>
+        <div class="feature-item">
+          <div class="icon">&#128202;</div>
+          <div class="label">スコアで可視化</div>
+        </div>
+        <div class="feature-item">
+          <div class="icon">&#128274;</div>
+          <div class="label">個人情報不要</div>
+        </div>
+      </div>
+      <button class="btn-start" onclick="startDiagnosis()">無料で診断する</button>
+      <p class="note">※ 本診断は簡易的な目安です。実際の申請可否は各補助金の公募要領をご確認ください。</p>
+    </div>
+  </div>
+
+  <!-- Wizard -->
+  <div id="wizard" class="hidden">
+    <div class="header">
+      <h1>補助金活用診断</h1>
+      <p>質問に答えて、活用できる補助金をチェックしましょう</p>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-bar">
+      <div class="progress-step">
+        <div class="step-circle" id="pc1">1</div>
+        <div class="step-line" id="pl1"></div>
+      </div>
+      <div class="progress-step">
+        <div class="step-circle" id="pc2">2</div>
+        <div class="step-line" id="pl2"></div>
+      </div>
+      <div class="progress-step">
+        <div class="step-circle" id="pc3">3</div>
+        <div class="step-line" id="pl3"></div>
+      </div>
+      <div class="progress-step">
+        <div class="step-circle" id="pc4">4</div>
+      </div>
+    </div>
+
+    <!-- Step 1: 基本情報 -->
+    <div id="step1" class="card">
+      <h2>Step 1: 基本情報</h2>
+      <p class="subtitle">事業の基本的な情報を教えてください</p>
+
+      <div class="form-group">
+        <label>業種<span class="required">*</span></label>
+        <div class="option-grid">
+          <label class="option-card"><input type="radio" name="industry" value="manufacturing"><span class="option-label"><span class="icon">&#127981;</span>製造業</span></label>
+          <label class="option-card"><input type="radio" name="industry" value="retail"><span class="option-label"><span class="icon">&#128717;</span>小売業</span></label>
+          <label class="option-card"><input type="radio" name="industry" value="service"><span class="option-label"><span class="icon">&#128188;</span>サービス業</span></label>
+          <label class="option-card"><input type="radio" name="industry" value="food"><span class="option-label"><span class="icon">&#127860;</span>飲食業</span></label>
+          <label class="option-card"><input type="radio" name="industry" value="construction"><span class="option-label"><span class="icon">&#127959;</span>建設業</span></label>
+          <label class="option-card"><input type="radio" name="industry" value="it"><span class="option-label"><span class="icon">&#128187;</span>IT業</span></label>
+          <label class="option-card"><input type="radio" name="industry" value="other"><span class="option-label"><span class="icon">&#128196;</span>その他</span></label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>従業員数<span class="required">*</span></label>
+        <div class="option-grid">
+          <label class="option-card"><input type="radio" name="employees" value="1-5"><span class="option-label">1〜5名</span></label>
+          <label class="option-card"><input type="radio" name="employees" value="6-20"><span class="option-label">6〜20名</span></label>
+          <label class="option-card"><input type="radio" name="employees" value="21-50"><span class="option-label">21〜50名</span></label>
+          <label class="option-card"><input type="radio" name="employees" value="51-100"><span class="option-label">51〜100名</span></label>
+          <label class="option-card"><input type="radio" name="employees" value="101+"><span class="option-label">101名以上</span></label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>設立年数<span class="required">*</span></label>
+        <div class="option-grid">
+          <label class="option-card"><input type="radio" name="years" value="under1"><span class="option-label">1年未満</span></label>
+          <label class="option-card"><input type="radio" name="years" value="1-3"><span class="option-label">1〜3年</span></label>
+          <label class="option-card"><input type="radio" name="years" value="3-10"><span class="option-label">3〜10年</span></label>
+          <label class="option-card"><input type="radio" name="years" value="10+"><span class="option-label">10年以上</span></label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>所在地<span class="required">*</span></label>
+        <select id="prefecture">
+          <option value="">都道府県を選択してください</option>
+          <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option><option>秋田県</option><option>山形県</option><option>福島県</option>
+          <option>茨城県</option><option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option><option>東京都</option><option>神奈川県</option>
+          <option>新潟県</option><option>富山県</option><option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option><option>岐阜県</option>
+          <option>静岡県</option><option>愛知県</option><option>三重県</option><option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option>
+          <option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option>
+          <option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option><option>佐賀県</option><option>長崎県</option>
+          <option>熊本県</option><option>大分県</option><option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
+        </select>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goLanding()">戻る</button>
+        <button class="btn btn-primary" onclick="nextStep(1)">次へ</button>
+      </div>
+    </div>
+
+    <!-- Step 2: 事業状況 -->
+    <div id="step2" class="card hidden">
+      <h2>Step 2: 事業状況</h2>
+      <p class="subtitle">現在の事業の状況を教えてください</p>
+
+      <div class="form-group">
+        <label>直近の売上傾向<span class="required">*</span></label>
+        <div class="option-grid">
+          <label class="option-card"><input type="radio" name="sales" value="increase"><span class="option-label"><span class="icon">&#128200;</span>増加傾向</span></label>
+          <label class="option-card"><input type="radio" name="sales" value="flat"><span class="option-label"><span class="icon">&#10145;&#65039;</span>横ばい</span></label>
+          <label class="option-card"><input type="radio" name="sales" value="decrease"><span class="option-label"><span class="icon">&#128201;</span>減少傾向</span></label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>経営課題（複数選択可）<span class="required">*</span></label>
+        <div class="checkbox-grid">
+          <label class="option-card"><input type="checkbox" name="challenges" value="sales_growth"><span class="option-label">&#127919; 売上拡大</span></label>
+          <label class="option-card"><input type="checkbox" name="challenges" value="cost_reduction"><span class="option-label">&#128181; コスト削減</span></label>
+          <label class="option-card"><input type="checkbox" name="challenges" value="labor_shortage"><span class="option-label">&#128101; 人手不足</span></label>
+          <label class="option-card"><input type="checkbox" name="challenges" value="dx"><span class="option-label">&#128187; DX推進</span></label>
+          <label class="option-card"><input type="checkbox" name="challenges" value="new_business"><span class="option-label">&#128161; 新規事業</span></label>
+          <label class="option-card"><input type="checkbox" name="challenges" value="market_expansion"><span class="option-label">&#127758; 販路拡大</span></label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>過去の補助金申請経験<span class="required">*</span></label>
+        <div class="option-grid">
+          <label class="option-card"><input type="radio" name="experience" value="yes"><span class="option-label">あり</span></label>
+          <label class="option-card"><input type="radio" name="experience" value="no"><span class="option-label">なし</span></label>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="prevStep(2)">戻る</button>
+        <button class="btn btn-primary" onclick="nextStep(2)">次へ</button>
+      </div>
+    </div>
+
+    <!-- Step 3: 実施したい施策 -->
+    <div id="step3" class="card hidden">
+      <h2>Step 3: 実施したい施策</h2>
+      <p class="subtitle">補助金を使って実施したい施策を選んでください（複数選択可）</p>
+
+      <div class="form-group">
+        <label>施策カテゴリ<span class="required">*</span></label>
+        <div class="checkbox-grid">
+          <label class="option-card"><input type="checkbox" name="measures" value="hp"><span class="option-label">&#127760; HPリニューアル・新規作成</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="ec"><span class="option-label">&#128722; ECサイト構築</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="webmarketing"><span class="option-label">&#128227; WEBマーケティング</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="dx_tool"><span class="option-label">&#9881;&#65039; DXツール導入</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="system"><span class="option-label">&#128421;&#65039; 業務効率化システム</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="new_product"><span class="option-label">&#128640; 新商品・新サービス開発</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="facility"><span class="option-label">&#127978; 店舗改装・設備投資</span></label>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="prevStep(3)">戻る</button>
+        <button class="btn btn-primary" onclick="nextStep(3)">次へ</button>
+      </div>
+    </div>
+
+    <!-- Step 4: 予算 -->
+    <div id="step4" class="card hidden">
+      <h2>Step 4: 予算規模</h2>
+      <p class="subtitle">施策に投じる想定予算を教えてください</p>
+
+      <div class="form-group">
+        <label>想定予算<span class="required">*</span></label>
+        <div class="option-grid">
+          <label class="option-card"><input type="radio" name="budget" value="under50"><span class="option-label">50万円未満</span></label>
+          <label class="option-card"><input type="radio" name="budget" value="50-150"><span class="option-label">50〜150万円</span></label>
+          <label class="option-card"><input type="radio" name="budget" value="150-500"><span class="option-label">150〜500万円</span></label>
+          <label class="option-card"><input type="radio" name="budget" value="500-1000"><span class="option-label">500〜1,000万円</span></label>
+          <label class="option-card"><input type="radio" name="budget" value="over1000"><span class="option-label">1,000万円以上</span></label>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="prevStep(4)">戻る</button>
+        <button class="btn btn-primary" onclick="showResult()">診断結果を見る</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div id="result" class="hidden"></div>
+
+</div>
+
+<script>
+// ---- State ----
+let currentStep = 1;
+
+function getVal(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : '';
+}
+function getVals(name) {
+  return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(e => e.value);
+}
+
+// ---- Navigation ----
+function startDiagnosis() {
+  document.getElementById('landing').classList.add('hidden');
+  document.getElementById('wizard').classList.remove('hidden');
+  currentStep = 1;
+  updateProgress();
+}
+
+function goLanding() {
+  document.getElementById('wizard').classList.add('hidden');
+  document.getElementById('landing').classList.remove('hidden');
+}
+
+function updateProgress() {
+  for (let i = 1; i <= 4; i++) {
+    const circle = document.getElementById('pc' + i);
+    circle.classList.remove('active', 'done');
+    if (i < currentStep) {
+      circle.classList.add('done');
+      circle.innerHTML = '\u2713';
+    } else if (i === currentStep) {
+      circle.classList.add('active');
+      circle.textContent = i;
+    } else {
+      circle.textContent = i;
+    }
+  }
+  for (let i = 1; i <= 3; i++) {
+    const line = document.getElementById('pl' + i);
+    line.classList.toggle('done', i < currentStep);
+  }
+}
+
+function showStep(n) {
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('step' + i).classList.toggle('hidden', i !== n);
+  }
+  currentStep = n;
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validateStep(n) {
+  if (n === 1) {
+    return getVal('industry') && getVal('employees') && getVal('years') && document.getElementById('prefecture').value;
+  }
+  if (n === 2) {
+    return getVal('sales') && getVals('challenges').length > 0 && getVal('experience');
+  }
+  if (n === 3) {
+    return getVals('measures').length > 0;
+  }
+  if (n === 4) {
+    return getVal('budget');
+  }
+  return true;
+}
+
+function nextStep(n) {
+  if (!validateStep(n)) {
+    alert('すべての項目を入力してください');
+    return;
+  }
+  showStep(n + 1);
+}
+function prevStep(n) { showStep(n - 1); }
+
+// ---- Diagnosis Logic ----
+const subsidyData = {
+  jizokuka: {
+    name: '小規模事業者持続化補助金',
+    description: '小規模事業者の販路開拓や生産性向上を支援する補助金です。チラシ作成、HP制作、展示会出展、店舗改装など幅広い経費が対象です。',
+    rate: '2/3',
+    maxAmount: '最大250万円',
+    tags: ['販路拡大', 'HP制作', '広告宣伝']
+  },
+  it_hojo: {
+    name: 'IT導入補助金',
+    description: '中小企業・小規模事業者のIT化を支援する補助金です。会計ソフト、CRM、ECサイト構築ツール等のITツール導入費用が対象です。',
+    rate: '1/2〜3/4',
+    maxAmount: '最大450万円',
+    tags: ['DXツール', 'ECサイト', '業務効率化']
+  },
+  monozukuri: {
+    name: 'ものづくり補助金',
+    description: '中小企業の革新的な製品・サービス開発や生産プロセスの改善を支援する補助金です。設備投資やシステム開発が対象です。',
+    rate: '1/2〜2/3',
+    maxAmount: '最大1,250万円',
+    tags: ['新サービス開発', '設備投資', 'システム開発']
+  },
+  jigyo_saikouchiku: {
+    name: '事業再構築補助金',
+    description: '新分野展開、事業転換、業種転換など思い切った事業の再構築を支援する補助金です。建物費、機械装置費、システム構築費等が対象です。',
+    rate: '1/2〜3/4',
+    maxAmount: '最大1億円',
+    tags: ['新規事業', '事業転換', '大規模投資']
+  }
+};
+
+function calcScores() {
+  const industry = getVal('industry');
+  const employees = getVal('employees');
+  const years = getVal('years');
+  const sales = getVal('sales');
+  const challenges = getVals('challenges');
+  const experience = getVal('experience');
+  const measures = getVals('measures');
+  const budget = getVal('budget');
+
+  const isSmall = ['1-5', '6-20'].includes(employees);
+  const isMedium = ['21-50', '51-100'].includes(employees);
+  const isLarge = employees === '101+';
+
+  const scores = {};
+
+  // --- 小規模事業者持続化補助金 ---
+  {
+    let s = 0;
+    // 従業員数: 小規模が対象
+    if (employees === '1-5') s += 30;
+    else if (employees === '6-20') s += 25;
+    else if (employees === '21-50') s += 5;
+    else s += 0;
+    // 施策マッチ
+    const match = ['hp', 'webmarketing', 'ec', 'facility'].filter(m => measures.includes(m));
+    s += Math.min(match.length * 12, 30);
+    // 予算マッチ (上限250万)
+    if (['under50', '50-150'].includes(budget)) s += 15;
+    else if (budget === '150-500') s += 10;
+    else s += 3;
+    // 経営課題
+    if (challenges.includes('sales_growth') || challenges.includes('market_expansion')) s += 10;
+    // 売上減少で加点
+    if (sales === 'decrease') s += 10;
+    else if (sales === 'flat') s += 5;
+    // 申請経験加点
+    if (experience === 'no') s += 5;
+    scores.jizokuka = Math.min(s, 100);
+  }
+
+  // --- IT導入補助金 ---
+  {
+    let s = 0;
+    // 中小企業対象
+    if (isSmall) s += 20;
+    else if (isMedium) s += 25;
+    else if (employees === '51-100') s += 20;
+    else s += 5;
+    // 施策マッチ
+    const match = ['dx_tool', 'ec', 'system', 'hp'].filter(m => measures.includes(m));
+    s += Math.min(match.length * 12, 35);
+    // 予算マッチ (上限450万)
+    if (['50-150', '150-500'].includes(budget)) s += 15;
+    else if (budget === 'under50') s += 10;
+    else s += 5;
+    // 経営課題
+    if (challenges.includes('dx')) s += 10;
+    if (challenges.includes('labor_shortage') || challenges.includes('cost_reduction')) s += 5;
+    // 設立年数
+    if (years !== 'under1') s += 5;
+    // 売上
+    if (sales === 'decrease' || sales === 'flat') s += 5;
+    scores.it_hojo = Math.min(s, 100);
+  }
+
+  // --- ものづくり補助金 ---
+  {
+    let s = 0;
+    // 中小企業対象
+    if (isMedium) s += 25;
+    else if (isSmall) s += 20;
+    else if (employees === '51-100') s += 20;
+    else s += 5;
+    // 施策マッチ
+    const match = ['new_product', 'system', 'facility'].filter(m => measures.includes(m));
+    s += Math.min(match.length * 15, 30);
+    // IT系の施策でも少し加点
+    if (measures.includes('dx_tool') || measures.includes('ec')) s += 5;
+    // 予算マッチ (上限1250万)
+    if (['150-500', '500-1000'].includes(budget)) s += 15;
+    else if (budget === 'over1000') s += 10;
+    else s += 3;
+    // 製造業加点
+    if (industry === 'manufacturing') s += 10;
+    // 経営課題
+    if (challenges.includes('new_business')) s += 8;
+    if (challenges.includes('cost_reduction') || challenges.includes('labor_shortage')) s += 5;
+    // 設立年数
+    if (['3-10', '10+'].includes(years)) s += 5;
+    scores.monozukuri = Math.min(s, 100);
+  }
+
+  // --- 事業再構築補助金 ---
+  {
+    let s = 0;
+    // 中小企業対象
+    if (isMedium) s += 20;
+    else if (isSmall) s += 15;
+    else if (employees === '51-100') s += 20;
+    else s += 10;
+    // 施策マッチ
+    const match = ['new_product', 'facility', 'system', 'ec'].filter(m => measures.includes(m));
+    s += Math.min(match.length * 12, 30);
+    // 予算マッチ (上限1億)
+    if (['500-1000', 'over1000'].includes(budget)) s += 15;
+    else if (budget === '150-500') s += 10;
+    else s += 3;
+    // 売上減少が重要
+    if (sales === 'decrease') s += 15;
+    else if (sales === 'flat') s += 8;
+    // 経営課題
+    if (challenges.includes('new_business')) s += 10;
+    if (challenges.includes('market_expansion')) s += 5;
+    // 設立年数
+    if (years !== 'under1') s += 5;
+    scores.jigyo_saikouchiku = Math.min(s, 100);
+  }
+
+  return scores;
+}
+
+// ---- Result Rendering ----
+function showResult() {
+  if (!validateStep(4)) {
+    alert('予算規模を選択してください');
+    return;
+  }
+
+  document.getElementById('wizard').classList.add('hidden');
+  const resultDiv = document.getElementById('result');
+  resultDiv.classList.remove('hidden');
+
+  const scores = calcScores();
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const topScore = sorted[0][1];
+
+  let level = topScore >= 60 ? 'high' : topScore >= 35 ? 'medium' : 'low';
+  let message = topScore >= 60
+    ? '活用できる可能性が高い補助金があります！'
+    : topScore >= 35
+      ? '条件次第で活用できる補助金がありそうです'
+      : '現在の条件では該当する補助金が限られています';
+
+  let html = `
+    <div class="header">
+      <h1>診断結果</h1>
+      <p>あなたの事業に合った補助金をスコア順に表示しています</p>
+    </div>
+    <div class="result-summary">
+      <h2>${message}</h2>
+      <div class="big-score">${topScore}<span style="font-size:20px">点</span></div>
+      <p>最も該当度の高い補助金のスコア</p>
+    </div>
+  `;
+
+  sorted.forEach(([key, score]) => {
+    const data = subsidyData[key];
+    const cls = score >= 60 ? 'high' : score >= 35 ? 'medium' : 'low';
+    const label = score >= 60 ? '該当度 高' : score >= 35 ? '該当度 中' : '該当度 低';
+
+    html += `
+      <div class="result-card ${cls}">
+        <div class="result-header">
+          <h3>${data.name}</h3>
+          <span class="score-badge ${cls}">${label} ${score}点</span>
+        </div>
+        <div class="score-bar-wrap">
+          <div class="score-bar ${cls}" style="width: 0%" data-width="${score}%"></div>
+        </div>
+        <div class="result-meta">
+          <div class="meta-item"><strong>補助率:</strong> ${data.rate}</div>
+          <div class="meta-item"><strong>補助上限:</strong> ${data.maxAmount}</div>
+        </div>
+        <p style="font-size:14px; color: var(--gray-700); margin-bottom: 10px;">${data.description}</p>
+        <ul class="result-points">
+          ${data.tags.map(t => `<li>${t}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+  });
+
+  html += `
+    <div class="cta-section">
+      <button class="btn-cta" onclick="alert('お問い合わせフォームへ遷移します（実装例）')">詳しく相談する</button>
+      <br>
+      <button class="btn-restart" onclick="restart()">もう一度診断する</button>
+    </div>
+    <div class="disclaimer">
+      ※ 本診断結果は簡易的な目安であり、実際の補助金申請の可否を保証するものではありません。<br>
+      詳細は各補助金の公募要領をご確認いただくか、専門家にご相談ください。
+    </div>
+  `;
+
+  resultDiv.innerHTML = html;
+
+  // Animate score bars
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.querySelectorAll('.score-bar').forEach(bar => {
+        bar.style.width = bar.dataset.width;
+      });
+    }, 100);
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('result').innerHTML = '';
+  // Reset form
+  document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(el => el.checked = false);
+  document.getElementById('prefecture').value = '';
+  // Show landing
+  document.getElementById('landing').classList.remove('hidden');
+}
+</script>
+
+</body>
+</html>
