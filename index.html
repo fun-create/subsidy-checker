@@ -147,27 +147,6 @@ body {
   margin-left: 4px;
 }
 
-select {
-  width: 100%;
-  padding: 12px 16px;
-  border: 2px solid var(--gray-200);
-  border-radius: 8px;
-  font-size: 15px;
-  color: var(--gray-900);
-  background: #fff;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  cursor: pointer;
-  transition: border-color .2s;
-}
-select:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(244,121,32,.15);
-}
-
 /* Radio / Checkbox as cards */
 .option-grid {
   display: grid;
@@ -669,20 +648,6 @@ select:focus {
         </div>
       </div>
 
-      <div class="form-group">
-        <label>所在地<span class="required">*</span></label>
-        <select id="prefecture">
-          <option value="">都道府県を選択してください</option>
-          <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option><option>秋田県</option><option>山形県</option><option>福島県</option>
-          <option>茨城県</option><option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option><option>東京都</option><option>神奈川県</option>
-          <option>新潟県</option><option>富山県</option><option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option><option>岐阜県</option>
-          <option>静岡県</option><option>愛知県</option><option>三重県</option><option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option>
-          <option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option>
-          <option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option><option>佐賀県</option><option>長崎県</option>
-          <option>熊本県</option><option>大分県</option><option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
-        </select>
-      </div>
-
       <div class="btn-row">
         <button class="btn btn-back" onclick="goLanding()">戻る</button>
         <button class="btn btn-primary" onclick="nextStep(1)">次へ</button>
@@ -848,7 +813,7 @@ function showStep(n) {
 
 function validateStep(n) {
   if (n === 1) {
-    return getVal('industry') && getVal('employees') && getVal('years') && document.getElementById('prefecture').value;
+    return getVal('industry') && getVal('employees') && getVal('years');
   }
   if (n === 2) {
     return getVal('sales') && getVal('wage_raise') && getVal('gbizid') && getVals('challenges').length > 0;
@@ -1347,7 +1312,6 @@ function restart() {
   document.getElementById('result').innerHTML = '';
   // Reset form
   document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(el => el.checked = false);
-  document.getElementById('prefecture').value = '';
   // Show landing
   document.getElementById('landing').classList.remove('hidden');
 }
