@@ -400,6 +400,69 @@ select:focus {
   color: var(--gray-700);
 }
 
+/* AI Advice */
+.ai-advice-card {
+  background: linear-gradient(135deg, #fefce8, #fff7ed);
+  border: 2px solid #fbbf24;
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  animation: fadeIn .4s ease;
+}
+.ai-advice-card h3 {
+  font-size: 17px;
+  color: #92400e;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ai-advice-card .ai-badge {
+  font-size: 11px;
+  background: #f59e0b;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+.ai-advice-card .ai-subtitle {
+  font-size: 13px;
+  color: #a16207;
+  margin-bottom: 16px;
+}
+.ai-advice-content {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--gray-700);
+  white-space: pre-wrap;
+}
+.ai-advice-content h4,
+.ai-advice-content strong {
+  color: #92400e;
+}
+.ai-loading {
+  text-align: center;
+  padding: 20px;
+  color: #a16207;
+  font-size: 14px;
+}
+.ai-loading .dots::after {
+  content: '';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+}
+.ai-error {
+  font-size: 13px;
+  color: var(--danger);
+  text-align: center;
+  padding: 12px;
+}
+
 /* Disclaimer */
 .disclaimer {
   text-align: center;
@@ -991,6 +1054,17 @@ function showResult() {
     `;
   });
 
+  // AI Advice section
+  html += `
+    <div class="ai-advice-card" id="aiAdviceCard">
+      <h3>申請を通すためのアドバイス <span class="ai-badge">AI</span></h3>
+      <p class="ai-subtitle">Claude が診断結果をもとに、申請のコツや注意点をアドバイスします</p>
+      <div id="aiAdviceContent">
+        <div class="ai-loading" id="aiLoading">AIアドバイスを生成中<span class="dots"></span></div>
+      </div>
+    </div>
+  `;
+
   html += `
     <div class="cta-section">
       <button class="btn-cta" onclick="alert('お問い合わせフォームへ遷移します（実装例）')">詳しく相談する</button>
@@ -1015,6 +1089,101 @@ function showResult() {
   });
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Trigger AI advice
+  fetchAIAdvice(scores, sorted);
+}
+
+// ---- AI Advice via Claude API (Cloudflare Workers proxy) ----
+const WORKER_URL = 'https://subsidy-checker-api.fun-create.workers.dev';
+
+const industryLabels = { manufacturing:'製造業', retail:'小売業', service:'サービス業', food:'飲食業', construction:'建設業', it:'IT業', other:'その他' };
+const employeeLabels = { '1-5':'1〜5名', '6-20':'6〜20名', '21-50':'21〜50名', '51-100':'51〜100名', '101+':'101名以上' };
+const yearsLabels = { under1:'1年未満', '1-3':'1〜3年', '3-10':'3〜10年', '10+':'10年以上' };
+const salesLabels = { increase:'増加傾向', flat:'横ばい', decrease:'減少傾向' };
+const challengeLabels = { sales_growth:'売上拡大', cost_reduction:'コスト削減', labor_shortage:'人手不足', dx:'DX推進', new_business:'新規事業', market_expansion:'販路拡大' };
+const measureLabels = { hp:'HPリニューアル・新規作成', ec:'ECサイト構築', webmarketing:'WEBマーケティング', dx_tool:'DXツール導入', system:'業務効率化システム', new_product:'新商品・新サービス開発', facility:'店舗改装・設備投資' };
+const budgetLabels = { under50:'50万円未満', '50-150':'50〜150万円', '150-500':'150〜500万円', '500-1000':'500〜1,000万円', over1000:'1,000万円以上' };
+
+async function fetchAIAdvice(scores, sorted) {
+  const contentEl = document.getElementById('aiAdviceContent');
+
+  const industry = getVal('industry');
+  const employees = getVal('employees');
+  const years = getVal('years');
+  const sales = getVal('sales');
+  const challenges = getVals('challenges');
+  const measures = getVals('measures');
+  const budget = getVal('budget');
+
+  const scoreText = sorted.map(([k, s]) => `${subsidyData[k].name}: ${s}点`).join('\n');
+  const topSubsidy = subsidyData[sorted[0][0]].name;
+
+  const userPrompt = `以下の事業者の補助金診断結果に基づいて、申請を通すための具体的なアドバイスをしてください。
+
+【事業者情報】
+- 業種: ${industryLabels[industry] || industry}
+- 従業員数: ${employeeLabels[employees] || employees}
+- 設立年数: ${yearsLabels[years] || years}
+- 売上傾向: ${salesLabels[sales] || sales}
+- 経営課題: ${challenges.map(c => challengeLabels[c] || c).join('、')}
+- 実施したい施策: ${measures.map(m => measureLabels[m] || m).join('、')}
+- 想定予算: ${budgetLabels[budget] || budget}
+
+【診断スコア】
+${scoreText}
+
+以下の3つの観点でアドバイスをお願いします。各セクションは見出し（■）で区切ってください。
+
+■ 最もおすすめの補助金（${topSubsidy}）の申請を通すコツ
+- 事業計画書で押さえるべきポイント
+- 審査で加点されやすい書き方
+
+■ 申請時の注意点・よくある失敗
+- 書類不備や申請ミスの典型例
+- スケジュール管理のポイント
+
+■ 採択率を上げるための工夫
+- この事業者の強みを活かした申請戦略
+- 補助金の組み合わせ活用の提案
+
+回答は日本語で、具体的かつ実践的にお願いします。800文字程度で簡潔にまとめてください。`;
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        messages: [{
+          role: 'user',
+          content: userPrompt
+        }],
+        system: 'あなたは日本の中小企業向け補助金の専門コンサルタントです。補助金申請の実務経験が豊富で、採択率を高めるための具体的なアドバイスができます。'
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `API Error: ${res.status}`);
+    }
+
+    const data = await res.json();
+    const text = data.content?.[0]?.text || 'アドバイスを取得できませんでした。';
+
+    // Simple markdown-like formatting
+    const formatted = text
+      .replace(/■\s*(.+)/g, '<h4 style="margin-top:16px; margin-bottom:6px; font-size:15px;">■ $1</h4>')
+      .replace(/\n- /g, '\n• ')
+      .replace(/\n/g, '<br>');
+
+    contentEl.innerHTML = `<div class="ai-advice-content">${formatted}</div>`;
+  } catch (e) {
+    contentEl.innerHTML = `<div class="ai-error">AIアドバイスの取得に失敗しました: ${e.message}</div>`;
+  }
 }
 
 function restart() {
