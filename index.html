@@ -638,16 +638,6 @@ body {
         </div>
       </div>
 
-      <div class="form-group">
-        <label>設立年数<span class="required">*</span></label>
-        <div class="option-grid">
-          <label class="option-card"><input type="radio" name="years" value="under1"><span class="option-label">1年未満</span></label>
-          <label class="option-card"><input type="radio" name="years" value="1-3"><span class="option-label">1〜3年</span></label>
-          <label class="option-card"><input type="radio" name="years" value="3-10"><span class="option-label">3〜10年</span></label>
-          <label class="option-card"><input type="radio" name="years" value="10+"><span class="option-label">10年以上</span></label>
-        </div>
-      </div>
-
       <div class="btn-row">
         <button class="btn btn-back" onclick="goLanding()">戻る</button>
         <button class="btn btn-primary" onclick="nextStep(1)">次へ</button>
@@ -813,7 +803,7 @@ function showStep(n) {
 
 function validateStep(n) {
   if (n === 1) {
-    return getVal('industry') && getVal('employees') && getVal('years');
+    return getVal('industry') && getVal('employees');
   }
   if (n === 2) {
     return getVal('sales') && getVal('wage_raise') && getVal('gbizid') && getVals('challenges').length > 0;
@@ -875,15 +865,12 @@ const subsidyData = {
 function calcScores() {
   const industry = getVal('industry');
   const employees = getVal('employees');
-  const years = getVal('years');
   const sales = getVal('sales');
-  const challenges = getVals('challenges');
-  const experience = getVal('experience');
-  const measures = getVals('measures');
-  const budget = getVal('budget');
-
   const wageRaise = getVal('wage_raise');
   const gbizid = getVal('gbizid');
+  const challenges = getVals('challenges');
+  const measures = getVals('measures');
+  const budget = getVal('budget');
 
   // 業種別の従業員数上限
   const empNum = employees === '1-5' ? 5 : employees === '6-20' ? 20 : employees === '21-50' ? 50 : employees === '51-100' ? 100 : 300;
@@ -901,25 +888,26 @@ function calcScores() {
     let s = 0;
     // 小規模事業者判定（業種考慮）
     if (isShokibo) s += 25;
-    else s += 0;
     // 施策マッチ（WEB費は1/4制限あるが他と組み合わせOK）
     const webMatch = ['hp', 'webmarketing', 'ec'].filter(m => measures.includes(m));
     const otherMatch = ['facility', 'new_product'].filter(m => measures.includes(m));
-    if (otherMatch.length > 0) s += 15; // WEB以外の施策があると強い
-    if (webMatch.length > 0 && otherMatch.length > 0) s += 10; // 組み合わせ
-    else if (webMatch.length > 0) s += 5; // WEBのみは1/4制限で弱い
+    if (otherMatch.length > 0) s += 15;
+    if (webMatch.length > 0 && otherMatch.length > 0) s += 10;
+    else if (webMatch.length > 0) s += 5;
     // 予算マッチ（通常枠50万、特例で最大250万）
     if (['under50', '50-150'].includes(budget)) s += 15;
     else if (budget === '150-500') s += 8;
     else s += 2;
     // 経営課題
     if (challenges.includes('sales_growth') || challenges.includes('market_expansion')) s += 10;
-    // 売上減少で加点
+    // 売上傾向（販路開拓の必要性）
     if (sales === 'decrease') s += 10;
     else if (sales === 'flat') s += 5;
     // 賃上げ特例で上限大幅アップ
     if (wageRaise === 'yes_high') s += 10;
     else if (wageRaise === 'yes_low') s += 5;
+    // GビズID（持続化は商工会議所経由だが電子申請で有利）
+    if (gbizid === 'yes') s += 5;
     scores.jizokuka = Math.min(s, 100);
   }
 
@@ -939,14 +927,16 @@ function calcScores() {
     // 経営課題
     if (challenges.includes('dx')) s += 10;
     if (challenges.includes('labor_shortage') || challenges.includes('cost_reduction')) s += 5;
+    // 売上傾向（IT導入による業務改善の緊急性）
+    if (sales === 'decrease') s += 8;
+    else if (sales === 'flat') s += 4;
     // 賃上げ要件（150万円以上は年3%必須）
     if (wageRaise === 'yes_high') s += 10;
     else if (wageRaise === 'yes_low') s += 3;
     // GビズID（必須要件）
     if (gbizid === 'yes') s += 5;
-    // 設立年数
-    if (years !== 'under1') s += 2;
-    scores.digital_ai = Math.min(s, 100);
+    else s -= 5; // 未取得は申請準備が間に合わないリスク
+    scores.digital_ai = Math.max(Math.min(s, 100), 0);
   }
 
   // --- ものづくり補助金 ---
@@ -961,21 +951,23 @@ function calcScores() {
     if (measures.includes('dx_tool') || measures.includes('ec')) s += 5;
     // 予算マッチ（最大3000万〜4000万）
     if (['150-500', '500-1000'].includes(budget)) s += 15;
-    else if (['1000-5000'].includes(budget)) s += 12;
+    else if (budget === '1000-5000') s += 12;
     else s += 3;
-    // 製造業加点
+    // 業種加点（製造業は特に親和性が高い）
     if (industry === 'manufacturing') s += 8;
     // 経営課題
     if (challenges.includes('new_business')) s += 5;
     if (challenges.includes('cost_reduction') || challenges.includes('labor_shortage')) s += 5;
-    // 賃上げ要件（必須: 給与年+2%、最低賃金+30円で補助率UP）
+    // 売上傾向（生産性向上・革新の必要性）
+    if (sales === 'decrease') s += 7;
+    else if (sales === 'flat') s += 3;
+    // 賃上げ要件（必須: 給与年+2%）
     if (wageRaise === 'yes_high') s += 12;
     else if (wageRaise === 'yes_low') s += 5;
-    else s -= 5; // 賃上げ予定なしはマイナス
+    else s -= 5;
     // GビズID（必須）
     if (gbizid === 'yes') s += 5;
-    // 設立年数
-    if (['3-10', '10+'].includes(years)) s += 3;
+    else s -= 5;
     scores.monozukuri = Math.max(Math.min(s, 100), 0);
   }
 
@@ -994,18 +986,19 @@ function calcScores() {
     else if (budget === 'over5000') s += 12;
     else if (budget === '150-500') s += 8;
     else s += 2;
-    // 売上減少で加点
+    // 売上傾向（事業転換の動機）
     if (sales === 'decrease') s += 10;
     else if (sales === 'flat') s += 5;
     // 経営課題
     if (challenges.includes('new_business')) s += 10;
     if (challenges.includes('market_expansion')) s += 3;
-    // 賃上げ要件（給与年+2.5%以上または最低賃金成長率以上）
+    // 賃上げ要件（給与年+2.5%以上）
     if (wageRaise === 'yes_high') s += 8;
     else if (wageRaise === 'yes_low') s += 3;
     else s -= 3;
-    // 設立年数
-    if (years !== 'under1') s += 3;
+    // GビズID（必須）
+    if (gbizid === 'yes') s += 5;
+    else s -= 5;
     scores.shinjigyo = Math.max(Math.min(s, 100), 0);
   }
 
@@ -1203,7 +1196,6 @@ const WORKER_URL = 'https://subsidy-checker-api.fun-create.workers.dev';
 
 const industryLabels = { manufacturing:'製造業', retail:'小売業', service:'サービス業', food:'飲食業', construction:'建設業', it:'IT業', other:'その他' };
 const employeeLabels = { '1-5':'1〜5名', '6-20':'6〜20名', '21-50':'21〜50名', '51-100':'51〜100名', '101+':'101名以上' };
-const yearsLabels = { under1:'1年未満', '1-3':'1〜3年', '3-10':'3〜10年', '10+':'10年以上' };
 const salesLabels = { increase:'増加傾向', flat:'横ばい', decrease:'減少傾向' };
 const wageLabels = { yes_high:'年3%以上引上げ予定', yes_low:'引上げ予定あり（3%未満）', no:'予定なし・未定' };
 const challengeLabels = { sales_growth:'売上拡大', cost_reduction:'コスト削減', labor_shortage:'人手不足', dx:'DX・IT化', new_business:'新分野進出', market_expansion:'販路拡大' };
@@ -1216,7 +1208,6 @@ async function fetchAIAdvice(scores, sorted) {
 
   const industry = getVal('industry');
   const employees = getVal('employees');
-  const years = getVal('years');
   const sales = getVal('sales');
   const wageRaise = getVal('wage_raise');
   const gbizid = getVal('gbizid');
@@ -1236,7 +1227,6 @@ async function fetchAIAdvice(scores, sorted) {
 【事業者情報】
 - 業種: ${industryLabels[industry] || industry}
 - 従業員数: ${employeeLabels[employees] || employees}
-- 設立年数: ${yearsLabels[years] || years}
 - 売上傾向: ${salesLabels[sales] || sales}
 - 賃上げ予定: ${wageLabels[wageRaise] || wageRaise}
 - GビズID: ${gbizid === 'yes' ? '取得済み' : '未取得'}
