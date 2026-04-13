@@ -689,10 +689,10 @@ select:focus {
       </div>
     </div>
 
-    <!-- Step 2: 事業状況 -->
+    <!-- Step 2: 事業状況・賃上げ -->
     <div id="step2" class="card hidden">
       <h2>Step 2: 事業状況</h2>
-      <p class="subtitle">現在の事業の状況を教えてください</p>
+      <p class="subtitle">補助金の審査で重要視される項目です</p>
 
       <div class="form-group">
         <label>直近の売上傾向<span class="required">*</span></label>
@@ -704,22 +704,31 @@ select:focus {
       </div>
 
       <div class="form-group">
+        <label>賃上げ（従業員の給与引上げ）の予定<span class="required">*</span></label>
+        <div class="option-grid">
+          <label class="option-card"><input type="radio" name="wage_raise" value="yes_high"><span class="option-label">年3%以上引上げ予定</span></label>
+          <label class="option-card"><input type="radio" name="wage_raise" value="yes_low"><span class="option-label">引上げ予定あり（3%未満）</span></label>
+          <label class="option-card"><input type="radio" name="wage_raise" value="no"><span class="option-label">予定なし・未定</span></label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>GビズIDプライムの取得状況<span class="required">*</span></label>
+        <div class="option-grid">
+          <label class="option-card"><input type="radio" name="gbizid" value="yes"><span class="option-label">取得済み</span></label>
+          <label class="option-card"><input type="radio" name="gbizid" value="no"><span class="option-label">未取得</span></label>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label>経営課題（複数選択可）<span class="required">*</span></label>
         <div class="checkbox-grid">
           <label class="option-card"><input type="checkbox" name="challenges" value="sales_growth"><span class="option-label">&#127919; 売上拡大</span></label>
           <label class="option-card"><input type="checkbox" name="challenges" value="cost_reduction"><span class="option-label">&#128181; コスト削減</span></label>
           <label class="option-card"><input type="checkbox" name="challenges" value="labor_shortage"><span class="option-label">&#128101; 人手不足</span></label>
-          <label class="option-card"><input type="checkbox" name="challenges" value="dx"><span class="option-label">&#128187; DX推進</span></label>
-          <label class="option-card"><input type="checkbox" name="challenges" value="new_business"><span class="option-label">&#128161; 新規事業</span></label>
+          <label class="option-card"><input type="checkbox" name="challenges" value="dx"><span class="option-label">&#128187; DX・IT化</span></label>
+          <label class="option-card"><input type="checkbox" name="challenges" value="new_business"><span class="option-label">&#128161; 新分野進出</span></label>
           <label class="option-card"><input type="checkbox" name="challenges" value="market_expansion"><span class="option-label">&#127758; 販路拡大</span></label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>過去の補助金申請経験<span class="required">*</span></label>
-        <div class="option-grid">
-          <label class="option-card"><input type="radio" name="experience" value="yes"><span class="option-label">あり</span></label>
-          <label class="option-card"><input type="radio" name="experience" value="no"><span class="option-label">なし</span></label>
         </div>
       </div>
 
@@ -737,13 +746,14 @@ select:focus {
       <div class="form-group">
         <label>施策カテゴリ<span class="required">*</span></label>
         <div class="checkbox-grid">
-          <label class="option-card"><input type="checkbox" name="measures" value="hp"><span class="option-label">&#127760; HPリニューアル・新規作成</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="hp"><span class="option-label">&#127760; HP制作・リニューアル</span></label>
           <label class="option-card"><input type="checkbox" name="measures" value="ec"><span class="option-label">&#128722; ECサイト構築</span></label>
-          <label class="option-card"><input type="checkbox" name="measures" value="webmarketing"><span class="option-label">&#128227; WEBマーケティング</span></label>
-          <label class="option-card"><input type="checkbox" name="measures" value="dx_tool"><span class="option-label">&#9881;&#65039; DXツール導入</span></label>
-          <label class="option-card"><input type="checkbox" name="measures" value="system"><span class="option-label">&#128421;&#65039; 業務効率化システム</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="webmarketing"><span class="option-label">&#128227; WEB広告・SNS運用</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="dx_tool"><span class="option-label">&#9881;&#65039; ITツール導入（会計・CRM等）</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="system"><span class="option-label">&#128421;&#65039; 業務システム開発</span></label>
           <label class="option-card"><input type="checkbox" name="measures" value="new_product"><span class="option-label">&#128640; 新商品・新サービス開発</span></label>
-          <label class="option-card"><input type="checkbox" name="measures" value="facility"><span class="option-label">&#127978; 店舗改装・設備投資</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="facility"><span class="option-label">&#127978; 設備投資・店舗改装</span></label>
+          <label class="option-card"><input type="checkbox" name="measures" value="new_field"><span class="option-label">&#127776; 新分野への事業進出</span></label>
         </div>
       </div>
 
@@ -756,7 +766,7 @@ select:focus {
     <!-- Step 4: 予算 -->
     <div id="step4" class="card hidden">
       <h2>Step 4: 予算規模</h2>
-      <p class="subtitle">施策に投じる想定予算を教えてください</p>
+      <p class="subtitle">施策全体にかける想定予算を教えてください（税抜）</p>
 
       <div class="form-group">
         <label>想定予算<span class="required">*</span></label>
@@ -765,7 +775,8 @@ select:focus {
           <label class="option-card"><input type="radio" name="budget" value="50-150"><span class="option-label">50〜150万円</span></label>
           <label class="option-card"><input type="radio" name="budget" value="150-500"><span class="option-label">150〜500万円</span></label>
           <label class="option-card"><input type="radio" name="budget" value="500-1000"><span class="option-label">500〜1,000万円</span></label>
-          <label class="option-card"><input type="radio" name="budget" value="over1000"><span class="option-label">1,000万円以上</span></label>
+          <label class="option-card"><input type="radio" name="budget" value="1000-5000"><span class="option-label">1,000〜5,000万円</span></label>
+          <label class="option-card"><input type="radio" name="budget" value="over5000"><span class="option-label">5,000万円以上</span></label>
         </div>
       </div>
 
@@ -840,7 +851,7 @@ function validateStep(n) {
     return getVal('industry') && getVal('employees') && getVal('years') && document.getElementById('prefecture').value;
   }
   if (n === 2) {
-    return getVal('sales') && getVals('challenges').length > 0 && getVal('experience');
+    return getVal('sales') && getVal('wage_raise') && getVal('gbizid') && getVals('challenges').length > 0;
   }
   if (n === 3) {
     return getVals('measures').length > 0;
@@ -864,31 +875,35 @@ function prevStep(n) { showStep(n - 1); }
 const subsidyData = {
   jizokuka: {
     name: '小規模事業者持続化補助金',
-    description: '小規模事業者の販路開拓や生産性向上を支援する補助金です。チラシ作成、HP制作、展示会出展、店舗改装など幅広い経費が対象です。',
-    rate: '2/3',
-    maxAmount: '最大250万円',
-    tags: ['販路拡大', 'HP制作', '広告宣伝']
+    description: '小規模事業者の販路開拓や生産性向上を支援。HP制作・チラシ・展示会・店舗改装など幅広い経費が対象。ただしウェブサイト関連費は補助額の1/4が上限で、WEB費のみの申請は不可。',
+    rate: '2/3（赤字事業者3/4）',
+    maxAmount: '通常枠50万円（特例併用で最大250万円）',
+    tags: ['販路拡大', '広報・広告', '展示会出展', '店舗改装'],
+    note: '※ WEB関連費のみでの申請不可。インボイス特例+50万、賃金引上げ特例+150万。'
   },
-  it_hojo: {
-    name: 'IT導入補助金',
-    description: '中小企業・小規模事業者のIT化を支援する補助金です。会計ソフト、CRM、ECサイト構築ツール等のITツール導入費用が対象です。',
-    rate: '1/2〜3/4',
-    maxAmount: '最大450万円',
-    tags: ['DXツール', 'ECサイト', '業務効率化']
+  digital_ai: {
+    name: 'デジタル化・AI導入補助金',
+    description: '旧IT導入補助金の後継。中小企業のITツール・AI導入を支援。会計ソフト、CRM、ECサイト構築ツール、セキュリティ対策等が対象。',
+    rate: '1/2（要件充足で2/3）',
+    maxAmount: '通常枠 最大450万円',
+    tags: ['ITツール導入', 'ECサイト', 'AI活用', 'セキュリティ'],
+    note: '※ 150万円以上は給与年平均成長率3%以上が必須。GビズIDプライム必要。'
   },
   monozukuri: {
     name: 'ものづくり補助金',
-    description: '中小企業の革新的な製品・サービス開発や生産プロセスの改善を支援する補助金です。設備投資やシステム開発が対象です。',
-    rate: '1/2〜2/3',
-    maxAmount: '最大1,250万円',
-    tags: ['新サービス開発', '設備投資', 'システム開発']
+    description: '中小企業の革新的な製品・サービス開発や生産プロセスの改善を支援。設備投資・システム開発が対象。第23次公募中。',
+    rate: '1/2（小規模事業者2/3）',
+    maxAmount: '最大3,000万円（賃上げ特例で4,000万円）',
+    tags: ['新サービス開発', '設備投資', '生産性向上'],
+    note: '※ 付加価値額年+3%、給与年+2%の事業計画が必要。GビズIDプライム必要。'
   },
-  jigyo_saikouchiku: {
-    name: '事業再構築補助金',
-    description: '新分野展開、事業転換、業種転換など思い切った事業の再構築を支援する補助金です。建物費、機械装置費、システム構築費等が対象です。',
-    rate: '1/2〜3/4',
-    maxAmount: '最大1億円',
-    tags: ['新規事業', '事業転換', '大規模投資']
+  shinjigyo: {
+    name: '中小企業新事業進出補助金',
+    description: '事業再構築補助金の後継制度。新分野展開・事業転換・業種転換など新たな事業への進出を支援。2026年度はものづくり補助金と統合予定。',
+    rate: '1/2（特例で2/3）',
+    maxAmount: '最大7,000万円（賃上げ特例で9,000万円）',
+    tags: ['新分野進出', '事業転換', '大規模投資'],
+    note: '※ 付加価値額年+4%の事業計画が必要。新事業進出指針に合致すること。'
   }
 };
 
@@ -902,122 +917,131 @@ function calcScores() {
   const measures = getVals('measures');
   const budget = getVal('budget');
 
-  // 業種別の従業員数上限（小規模事業者の定義）
-  // 製造業・建設業: 20名以下、商業・サービス業: 5名以下
+  const wageRaise = getVal('wage_raise');
+  const gbizid = getVal('gbizid');
+
+  // 業種別の従業員数上限
   const empNum = employees === '1-5' ? 5 : employees === '6-20' ? 20 : employees === '21-50' ? 50 : employees === '51-100' ? 100 : 300;
   const isManufacturingType = ['manufacturing', 'construction'].includes(industry);
   const smallLimit = isManufacturingType ? 20 : 5;
-  const isShokibo = empNum <= smallLimit; // 小規模事業者かどうか（業種考慮）
-
-  // 中小企業の定義（業種別の資本金・従業員数上限）
-  // 製造業: 300名以下、卸売業: 100名以下、小売業・飲食業: 50名以下、サービス業: 100名以下
+  const isShokibo = empNum <= smallLimit;
   const chuushouLimit = industry === 'manufacturing' || industry === 'construction' ? 300
-    : industry === 'retail' || industry === 'food' ? 50
-    : 100;
-  const isChuushou = empNum <= chuushouLimit; // 中小企業かどうか
+    : industry === 'retail' || industry === 'food' ? 50 : 100;
+  const isChuushou = empNum <= chuushouLimit;
 
   const scores = {};
 
   // --- 小規模事業者持続化補助金 ---
   {
     let s = 0;
-    // 業種別の小規模事業者判定
-    if (isShokibo) {
-      s += 30; // 小規模事業者に該当
-    } else if (isChuushou && empNum <= smallLimit * 4) {
-      s += 10; // 小規模ではないが中小企業の範囲内
-    } else {
-      s += 0; // 対象外の可能性が高い
-    }
-    // 施策マッチ
-    const match = ['hp', 'webmarketing', 'ec', 'facility'].filter(m => measures.includes(m));
-    s += Math.min(match.length * 12, 30);
-    // 予算マッチ (上限250万)
+    // 小規模事業者判定（業種考慮）
+    if (isShokibo) s += 25;
+    else s += 0;
+    // 施策マッチ（WEB費は1/4制限あるが他と組み合わせOK）
+    const webMatch = ['hp', 'webmarketing', 'ec'].filter(m => measures.includes(m));
+    const otherMatch = ['facility', 'new_product'].filter(m => measures.includes(m));
+    if (otherMatch.length > 0) s += 15; // WEB以外の施策があると強い
+    if (webMatch.length > 0 && otherMatch.length > 0) s += 10; // 組み合わせ
+    else if (webMatch.length > 0) s += 5; // WEBのみは1/4制限で弱い
+    // 予算マッチ（通常枠50万、特例で最大250万）
     if (['under50', '50-150'].includes(budget)) s += 15;
-    else if (budget === '150-500') s += 10;
-    else s += 3;
+    else if (budget === '150-500') s += 8;
+    else s += 2;
     // 経営課題
     if (challenges.includes('sales_growth') || challenges.includes('market_expansion')) s += 10;
     // 売上減少で加点
     if (sales === 'decrease') s += 10;
     else if (sales === 'flat') s += 5;
-    // 申請経験加点
-    if (experience === 'no') s += 5;
+    // 賃上げ特例で上限大幅アップ
+    if (wageRaise === 'yes_high') s += 10;
+    else if (wageRaise === 'yes_low') s += 5;
     scores.jizokuka = Math.min(s, 100);
   }
 
-  // --- IT導入補助金 ---
+  // --- デジタル化・AI導入補助金 ---
   {
     let s = 0;
-    // 業種別の中小企業判定
-    if (isChuushou && isShokibo) s += 25; // 小規模事業者（加点あり）
-    else if (isChuushou) s += 20;          // 中小企業
-    else s += 5;                            // 対象外の可能性
-    // 施策マッチ
+    // 中小企業判定
+    if (isChuushou) s += 20;
+    else s += 3;
+    // 施策マッチ（ITツール・EC・システムが中心）
     const match = ['dx_tool', 'ec', 'system', 'hp'].filter(m => measures.includes(m));
-    s += Math.min(match.length * 12, 35);
-    // 予算マッチ (上限450万)
+    s += Math.min(match.length * 10, 30);
+    // 予算マッチ（通常枠5万〜450万）
     if (['50-150', '150-500'].includes(budget)) s += 15;
     else if (budget === 'under50') s += 10;
-    else s += 5;
+    else s += 3;
     // 経営課題
     if (challenges.includes('dx')) s += 10;
     if (challenges.includes('labor_shortage') || challenges.includes('cost_reduction')) s += 5;
+    // 賃上げ要件（150万円以上は年3%必須）
+    if (wageRaise === 'yes_high') s += 10;
+    else if (wageRaise === 'yes_low') s += 3;
+    // GビズID（必須要件）
+    if (gbizid === 'yes') s += 5;
     // 設立年数
-    if (years !== 'under1') s += 5;
-    // 売上
-    if (sales === 'decrease' || sales === 'flat') s += 5;
-    scores.it_hojo = Math.min(s, 100);
+    if (years !== 'under1') s += 2;
+    scores.digital_ai = Math.min(s, 100);
   }
 
   // --- ものづくり補助金 ---
   {
     let s = 0;
-    // 業種別の中小企業判定
-    if (isChuushou) s += 25;  // 中小企業に該当
-    else s += 5;               // 対象外の可能性
+    // 中小企業判定
+    if (isChuushou) s += 20;
+    else s += 3;
     // 施策マッチ
     const match = ['new_product', 'system', 'facility'].filter(m => measures.includes(m));
-    s += Math.min(match.length * 15, 30);
-    // IT系の施策でも少し加点
+    s += Math.min(match.length * 12, 25);
     if (measures.includes('dx_tool') || measures.includes('ec')) s += 5;
-    // 予算マッチ (上限1250万)
+    // 予算マッチ（最大3000万〜4000万）
     if (['150-500', '500-1000'].includes(budget)) s += 15;
-    else if (budget === 'over1000') s += 10;
+    else if (['1000-5000'].includes(budget)) s += 12;
     else s += 3;
     // 製造業加点
-    if (industry === 'manufacturing') s += 10;
+    if (industry === 'manufacturing') s += 8;
     // 経営課題
-    if (challenges.includes('new_business')) s += 8;
+    if (challenges.includes('new_business')) s += 5;
     if (challenges.includes('cost_reduction') || challenges.includes('labor_shortage')) s += 5;
+    // 賃上げ要件（必須: 給与年+2%、最低賃金+30円で補助率UP）
+    if (wageRaise === 'yes_high') s += 12;
+    else if (wageRaise === 'yes_low') s += 5;
+    else s -= 5; // 賃上げ予定なしはマイナス
+    // GビズID（必須）
+    if (gbizid === 'yes') s += 5;
     // 設立年数
-    if (['3-10', '10+'].includes(years)) s += 5;
-    scores.monozukuri = Math.min(s, 100);
+    if (['3-10', '10+'].includes(years)) s += 3;
+    scores.monozukuri = Math.max(Math.min(s, 100), 0);
   }
 
-  // --- 事業再構築補助金 ---
+  // --- 中小企業新事業進出補助金 ---
   {
     let s = 0;
-    // 業種別の中小企業判定（中堅企業も一部対象）
-    if (isChuushou && isShokibo) s += 20;  // 小規模事業者
-    else if (isChuushou) s += 20;           // 中小企業
-    else s += 10;                            // 中堅企業も一部対象
-    // 施策マッチ
+    // 中小企業判定（中堅も一部対象）
+    if (isChuushou) s += 18;
+    else s += 8;
+    // 施策マッチ（新分野進出が最重要）
+    if (measures.includes('new_field')) s += 20;
     const match = ['new_product', 'facility', 'system', 'ec'].filter(m => measures.includes(m));
-    s += Math.min(match.length * 12, 30);
-    // 予算マッチ (上限1億)
-    if (['500-1000', 'over1000'].includes(budget)) s += 15;
-    else if (budget === '150-500') s += 10;
-    else s += 3;
-    // 売上減少が重要
-    if (sales === 'decrease') s += 15;
-    else if (sales === 'flat') s += 8;
+    s += Math.min(match.length * 8, 20);
+    // 予算マッチ（最大7000万〜9000万）
+    if (['500-1000', '1000-5000'].includes(budget)) s += 15;
+    else if (budget === 'over5000') s += 12;
+    else if (budget === '150-500') s += 8;
+    else s += 2;
+    // 売上減少で加点
+    if (sales === 'decrease') s += 10;
+    else if (sales === 'flat') s += 5;
     // 経営課題
     if (challenges.includes('new_business')) s += 10;
-    if (challenges.includes('market_expansion')) s += 5;
+    if (challenges.includes('market_expansion')) s += 3;
+    // 賃上げ要件（給与年+2.5%以上または最低賃金成長率以上）
+    if (wageRaise === 'yes_high') s += 8;
+    else if (wageRaise === 'yes_low') s += 3;
+    else s -= 3;
     // 設立年数
-    if (years !== 'under1') s += 5;
-    scores.jigyo_saikouchiku = Math.min(s, 100);
+    if (years !== 'under1') s += 3;
+    scores.shinjigyo = Math.max(Math.min(s, 100), 0);
   }
 
   return scores;
@@ -1031,43 +1055,50 @@ function checkEligibility() {
   const isManufacturingType = ['manufacturing', 'construction'].includes(industry);
   const smallLimit = isManufacturingType ? 20 : 5;
   const chuushouLimit = industry === 'manufacturing' || industry === 'construction' ? 300
-    : industry === 'retail' || industry === 'food' ? 50
-    : 100;
+    : industry === 'retail' || industry === 'food' ? 50 : 100;
   const isShokibo = empNum <= smallLimit;
   const isChuushou = empNum <= chuushouLimit;
+  const measures = getVals('measures');
 
-  const industryLabel = industryLabels[industry] || industry;
-  const empLabel = employeeLabels[employees] || employees;
-
+  const iLabel = industryLabels[industry] || industry;
+  const eLabel = employeeLabels[employees] || employees;
   const result = {};
 
   // 小規模事業者持続化補助金: 小規模事業者のみ
   if (isShokibo) {
-    result.jizokuka = { eligible: true };
+    // WEB関連費のみの場合は注意
+    const webOnly = measures.every(m => ['hp', 'ec', 'webmarketing'].includes(m));
+    if (webOnly && measures.length > 0) {
+      result.jizokuka = { eligible: true, warning: 'ウェブサイト関連費のみでの申請はできません。広報費や展示会出展費など他の経費と組み合わせる必要があります。' };
+    } else {
+      result.jizokuka = { eligible: true };
+    }
   } else {
     const limit = isManufacturingType ? '20名以下' : '5名以下';
-    result.jizokuka = { eligible: false, reason: `${industryLabel}の小規模事業者の定義は従業員${limit}です。現在の従業員数（${empLabel}）では申請対象外となる可能性が高いです。` };
+    result.jizokuka = { eligible: false, reason: `${iLabel}の小規模事業者の定義は従業員${limit}です。現在の従業員数（${eLabel}）では申請対象外となる可能性が高いです。` };
   }
 
-  // IT導入補助金: 中小企業・小規模事業者
+  // デジタル化・AI導入補助金: 中小企業・小規模事業者
   if (isChuushou) {
-    result.it_hojo = { eligible: true };
+    result.digital_ai = { eligible: true };
   } else {
-    result.it_hojo = { eligible: false, reason: `${industryLabel}の中小企業の定義は従業員${chuushouLimit}名以下です。現在の従業員数（${empLabel}）では申請対象外となる可能性が高いです。` };
+    result.digital_ai = { eligible: false, reason: `${iLabel}の中小企業の定義は従業員${chuushouLimit}名以下です。現在の従業員数（${eLabel}）では申請対象外となる可能性が高いです。` };
   }
 
   // ものづくり補助金: 中小企業
   if (isChuushou) {
     result.monozukuri = { eligible: true };
   } else {
-    result.monozukuri = { eligible: false, reason: `${industryLabel}の中小企業の定義は従業員${chuushouLimit}名以下です。現在の従業員数（${empLabel}）では申請対象外となる可能性が高いです。` };
+    result.monozukuri = { eligible: false, reason: `${iLabel}の中小企業の定義は従業員${chuushouLimit}名以下です。現在の従業員数（${eLabel}）では申請対象外となる可能性が高いです。` };
   }
 
-  // 事業再構築補助金: 中小企業＋中堅企業（2000名以下）も対象
-  if (empNum <= 2000) {
-    result.jigyo_saikouchiku = { eligible: true };
+  // 中小企業新事業進出補助金: 中小企業（中堅も一部対象）
+  if (isChuushou) {
+    result.shinjigyo = { eligible: true };
+  } else if (empNum <= 2000) {
+    result.shinjigyo = { eligible: true, warning: '中堅企業枠での申請となります。補助率が低くなる場合があります。' };
   } else {
-    result.jigyo_saikouchiku = { eligible: false, reason: `従業員数2,000名以下の中小・中堅企業が対象です。現在の従業員数（${empLabel}）では申請対象外となる可能性があります。` };
+    result.shinjigyo = { eligible: false, reason: `従業員数2,000名以下の中小・中堅企業が対象です。現在の従業員数（${eLabel}）では申請対象外となる可能性があります。` };
   }
 
   return result;
@@ -1136,6 +1167,8 @@ function showResult() {
 
     const cls = score >= 60 ? 'high' : score >= 35 ? 'medium' : 'low';
     const label = score >= 60 ? '該当度 高' : score >= 35 ? '該当度 中' : '該当度 低';
+    const warningHtml = elig.warning ? `<div class="ineligible-reason" style="background:#fffbeb; color:#92400e; border-left:3px solid var(--gold); padding-left:12px;">${elig.warning}</div>` : '';
+    const noteHtml = data.note ? `<p style="font-size:12px; color:var(--gray-500); margin-top:8px;">${data.note}</p>` : '';
 
     html += `
       <div class="result-card ${cls}">
@@ -1143,6 +1176,7 @@ function showResult() {
           <h3>${data.name}</h3>
           <span class="score-badge ${cls}">${label} ${score}点</span>
         </div>
+        ${warningHtml}
         <div class="score-bar-wrap">
           <div class="score-bar ${cls}" style="width: 0%" data-width="${score}%"></div>
         </div>
@@ -1154,6 +1188,7 @@ function showResult() {
         <ul class="result-points">
           ${data.tags.map(t => `<li>${t}</li>`).join('')}
         </ul>
+        ${noteHtml}
       </div>
     `;
   });
@@ -1205,23 +1240,31 @@ const industryLabels = { manufacturing:'製造業', retail:'小売業', service:
 const employeeLabels = { '1-5':'1〜5名', '6-20':'6〜20名', '21-50':'21〜50名', '51-100':'51〜100名', '101+':'101名以上' };
 const yearsLabels = { under1:'1年未満', '1-3':'1〜3年', '3-10':'3〜10年', '10+':'10年以上' };
 const salesLabels = { increase:'増加傾向', flat:'横ばい', decrease:'減少傾向' };
-const challengeLabels = { sales_growth:'売上拡大', cost_reduction:'コスト削減', labor_shortage:'人手不足', dx:'DX推進', new_business:'新規事業', market_expansion:'販路拡大' };
-const measureLabels = { hp:'HPリニューアル・新規作成', ec:'ECサイト構築', webmarketing:'WEBマーケティング', dx_tool:'DXツール導入', system:'業務効率化システム', new_product:'新商品・新サービス開発', facility:'店舗改装・設備投資' };
-const budgetLabels = { under50:'50万円未満', '50-150':'50〜150万円', '150-500':'150〜500万円', '500-1000':'500〜1,000万円', over1000:'1,000万円以上' };
+const wageLabels = { yes_high:'年3%以上引上げ予定', yes_low:'引上げ予定あり（3%未満）', no:'予定なし・未定' };
+const challengeLabels = { sales_growth:'売上拡大', cost_reduction:'コスト削減', labor_shortage:'人手不足', dx:'DX・IT化', new_business:'新分野進出', market_expansion:'販路拡大' };
+const measureLabels = { hp:'HP制作・リニューアル', ec:'ECサイト構築', webmarketing:'WEB広告・SNS運用', dx_tool:'ITツール導入', system:'業務システム開発', new_product:'新商品・新サービス開発', facility:'設備投資・店舗改装', new_field:'新分野への事業進出' };
+const budgetLabels = { under50:'50万円未満', '50-150':'50〜150万円', '150-500':'150〜500万円', '500-1000':'500〜1,000万円', '1000-5000':'1,000〜5,000万円', over5000:'5,000万円以上' };
 
 async function fetchAIAdvice(scores, sorted) {
   const contentEl = document.getElementById('aiAdviceContent');
+  const eligibility = checkEligibility();
 
   const industry = getVal('industry');
   const employees = getVal('employees');
   const years = getVal('years');
   const sales = getVal('sales');
+  const wageRaise = getVal('wage_raise');
+  const gbizid = getVal('gbizid');
   const challenges = getVals('challenges');
   const measures = getVals('measures');
   const budget = getVal('budget');
 
-  const scoreText = sorted.map(([k, s]) => `${subsidyData[k].name}: ${s}点`).join('\n');
-  const topSubsidy = subsidyData[sorted[0][0]].name;
+  const eligibleSubsidies = sorted.filter(([k]) => eligibility[k].eligible);
+  const scoreText = sorted.map(([k, s]) => {
+    const e = eligibility[k];
+    return e.eligible ? `${subsidyData[k].name}: ${s}点` : `${subsidyData[k].name}: 対象外`;
+  }).join('\n');
+  const topSubsidy = eligibleSubsidies.length > 0 ? subsidyData[eligibleSubsidies[0][0]].name : '該当なし';
 
   const userPrompt = `以下の事業者の補助金診断結果に基づいて、申請を通すための具体的なアドバイスをしてください。
 
@@ -1230,6 +1273,8 @@ async function fetchAIAdvice(scores, sorted) {
 - 従業員数: ${employeeLabels[employees] || employees}
 - 設立年数: ${yearsLabels[years] || years}
 - 売上傾向: ${salesLabels[sales] || sales}
+- 賃上げ予定: ${wageLabels[wageRaise] || wageRaise}
+- GビズID: ${gbizid === 'yes' ? '取得済み' : '未取得'}
 - 経営課題: ${challenges.map(c => challengeLabels[c] || c).join('、')}
 - 実施したい施策: ${measures.map(m => measureLabels[m] || m).join('、')}
 - 想定予算: ${budgetLabels[budget] || budget}
@@ -1237,21 +1282,28 @@ async function fetchAIAdvice(scores, sorted) {
 【診断スコア】
 ${scoreText}
 
+【対象補助金の2026年最新情報】
+- 小規模事業者持続化補助金: 通常枠50万円、WEB関連費は補助額の1/4上限・WEB費のみ申請不可、インボイス特例+50万・賃金引上げ特例+150万で最大250万
+- デジタル化・AI導入補助金（旧IT導入補助金）: 通常枠最大450万円、150万以上は給与年3%成長必須、GビズID必須
+- ものづくり補助金: 最大3000万（賃上げ特例4000万）、付加価値額年+3%・給与年+2%必須、GビズID必須
+- 中小企業新事業進出補助金（事業再構築の後継）: 最大7000万（賃上げ特例9000万）、付加価値額年+4%必須
+
 以下の3つの観点でアドバイスをお願いします。各セクションは見出し（■）で区切ってください。
 
 ■ 最もおすすめの補助金（${topSubsidy}）の申請を通すコツ
-- 事業計画書で押さえるべきポイント
-- 審査で加点されやすい書き方
+- この事業者の状況を踏まえた事業計画書のポイント
+- 審査で加点されやすい書き方と賃上げ要件への対応
 
 ■ 申請時の注意点・よくある失敗
 - 書類不備や申請ミスの典型例
-- スケジュール管理のポイント
+- GビズIDや賃上げ要件など事前準備のポイント
+- スケジュール管理の注意点
 
 ■ 採択率を上げるための工夫
-- この事業者の強みを活かした申請戦略
-- 補助金の組み合わせ活用の提案
+- この事業者の強みを活かした具体的な申請戦略
+- 複数の補助金の使い分け・組み合わせの提案
 
-回答は日本語で、具体的かつ実践的にお願いします。800文字程度で簡潔にまとめてください。`;
+回答は日本語で、具体的かつ実践的にお願いします。1000文字程度でまとめてください。`;
 
   try {
     const res = await fetch(WORKER_URL, {
